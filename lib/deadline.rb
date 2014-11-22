@@ -20,7 +20,9 @@ private
   end
 
   def increment_day
-    @remaining -= closing_time - start_or_opening_time if start_time < closing_time
+    if start_time < closing_time
+      @remaining -= closing_time - start_or_opening_time
+    end
     @start_time = opening_time + 24*60*60
   end
 
