@@ -36,12 +36,12 @@ describe BusinessHours do
       expect(@bh.calculate_deadline(10*60*60, "Dec 22, 2009 7:55 AM")).to eq(deadline)
     end
 
-    #it "update hours of day" do
-    #  @bh.update :mon, "8:00 AM", "3:00 PM"
-    #  @bh.update :tue, "9:00 AM", "5:00 PM"
-    #  deadline = Time.parse("Dec 22, 2009 9:02 AM")
-    #  expect(@bh.calculate_deadline(5*60, "Dec 21, 2009 2:57 PM")).to eq(deadline)
-    #end
+    it "update hours of day" do
+      @bh.update :mon, "8:00 AM", "3:00 PM"
+      @bh.update :tue, "9:00 AM", "5:00 PM"
+      deadline = Time.parse("Dec 22, 2009 9:02 AM")
+      expect(@bh.calculate_deadline(5*60, "Dec 21, 2009 2:57 PM")).to eq(deadline)
+    end
   end
 end
 

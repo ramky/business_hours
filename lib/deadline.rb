@@ -1,3 +1,4 @@
+require 'date'
 require 'time'
 
 class Deadline
@@ -41,34 +42,20 @@ private
   end
 
   def get_opening
-    "#{schedules[:default].opening}"
+    get_opening_or_closing_for_day('opening') || "#{schedules[:default].opening}"
   end
 
   def get_closing
-    "#{schedules[:default].closing}"
+    get_opening_or_closing_for_day('closing') || "#{schedules[:default].closing}"
   end
 
-  def opening_for_day
-    "#{schedules[start_time.wday].opening}"
+  def get_opening_or_closing_for_day(key)
+    symbol = get_symbol_for_abbr_day
+    schedules.has_key?(symbol) ? "#{schedules[symbol].send(key)}" : nil
   end
 
-  def closing_for_day
-    "#{schedules[start_time.wday].closing}"
+  def get_symbol_for_abbr_day
+    abbr_day = Date::ABBR_DAYNAMES[start_time.wday]
+    abbr_day.downcase.to_sym
   end
-
-  #def work_start_time
-  #  if start_time < opening_time
-  #      opening_time
-  #  elsif start_time > closing_time
-  #     opening_time + 24*60*60
-  #  else
-  #    if start_time + remaining < closing_time
-  #      start_time
-  #    else
-  #      completed = closing_time - start_time
-  #      @remaining -= completed
-  #      opening_time + 24*60*60
-  #    end
-  #  end
-  #end
 end

@@ -6,8 +6,8 @@ class BusinessHours
   end
 
   def update(day, opening, closing)
-    type = day.kind_of?(Symbol) ? Date.parse(day.to_s) : Date.parse(day)
-    @schedules[type] = Schedule.new(opening, closing)
+    #type = day.kind_of?(Symbol) ? day : Date.parse(day)
+    @schedules[day] = Schedule.new(opening, closing)
   end
 
   def closed(*days)
