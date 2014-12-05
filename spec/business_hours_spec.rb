@@ -56,6 +56,28 @@ describe BusinessHours do
       expect(@bh.calculate_deadline(5*60, "Dec 18, 2009 4:57 PM")).to \
         eq(deadline)
     end
+
+    it "changes hours on specific dates" do
+      @bh.update "Dec 24, 2009", "8:00 AM", "3:00 PM"
+      @bh.closed :sat, :sun, "Dec 25, 2009"
+      deadline1 = Time.parse("Dec 28, 2009 8:02 AM")
+      expect(@bh.calculate_deadline(5*60, "Dec 24, 2009 2:57 PM")).to \
+        eq(deadline1)
+      deadline2 = Time.parse("Dec 17, 2009 3:02 PM")
+      expect(@bh.calculate_deadline(5*60, "Dec 17, 2009 2:57 PM")).to \
+        eq(deadline2)
+    end
+
+    it "when starts on a closed day" do
+      @bh.closed :tue, "Dec 25, 2009"
+      deadline1 = Time.parse("Dec 23, 2009 8:05 AM")
+      expect(@bh.calculate_deadline(5*60, "Dec 22, 2009 4:57 PM")).to \
+        eq(deadline1)
+      deadline2 = Time.parse("Dec 26, 2009 8:05 AM")
+      expect(@bh.calculate_deadline(5*60, "Dec 25, 2009 4:57 PM")).to \
+        eq(deadline2)
+    end
+
   end
 end
 

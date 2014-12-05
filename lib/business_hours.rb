@@ -1,13 +1,14 @@
 class BusinessHours
   attr_reader :schedules
+
   def initialize(opening, closing)
     @schedules = {}
     @schedules[:default] = Schedule.new(opening, closing)
   end
 
   def update(day, opening, closing)
-    #type = day.kind_of?(Symbol) ? day : Date.parse(day)
-    @schedules[day] = Schedule.new(opening, closing)
+    type = day.kind_of?(Symbol) ? day : Date.parse(day).to_s
+    @schedules[type] = Schedule.new(opening, closing)
   end
 
   def closed(*days)
